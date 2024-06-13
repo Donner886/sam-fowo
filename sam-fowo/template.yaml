@@ -1,0 +1,98 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless application with lamda function and layer
+
+Parameters:
+  Loglevel:
+      Description: 'specify log level'
+      Type: String
+      AllowedValues:
+        - DEBUG
+        - INFO
+      Default: DEBUG
+  Env:
+    Description: 'specify environment'
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+    Default: dev
+
+Conditions:
+  IsProd: !Equals [!Ref 'Env', 'prod']
+  IsNotProd: !Equals [!Ref 'Env', 'dev']
+
+
+Resources:
+  ######################################################################################################################
+  # Layer with build capabilities, automatically execute pip install -r requirements.txt -t installing libraries
+  ######################################################################################################################
+  commonLibrary:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: commonLibrary
+      CompatibleRuntimes:
+        - python3.9
+    Metadata:
+      BuildMethod: python3.9 # this is where magic happen, sam build command will read requirements.txt file and download libraries
+
+
+  OverviewApiProd:
+    Type: AWS::Serverless::Api
+    Condition: IsProd
+    Properties:
+      Name: sam-fowo-prod
+      StageName: !Ref Env
+      MethodSettings:
+        - ResourcePath: /profile
+          HttpMethod: POST
+
+
+  OverviewApiDev:
+    Type: AWS::Serverless::Api
+    Condition: IsNotProd
+    Properties:
+      Name: sam-fowo-dev
+      StageName: !Ref Env
+      MethodSettings:
+        - ResourcePath: /profile
+          HttpMethod: POST
+
+  ######################################################################################################################
+  # Lambda function using MyLayer and MyLibLayer
+  ######################################################################################################################
+  overviewFunctionProd:
+    Type: AWS::Serverless::Function
+    Condition: IsProd
+    Properties:
+      CodeUri: asset_overview/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Layers:
+        - !Ref commonLibrary
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /profile
+            Method: post
+            RestApiId:
+              Ref: OverviewApiProd
+
+  overviewFunctionDev:
+    Type: AWS::Serverless::Function
+    Condition: IsNotProd
+    Properties:
+      CodeUri: asset_overview/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Layers:
+        - !Ref commonLibrary
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /profile
+            Method: post
+            RestApiId:
+              Ref: OverviewApiDev
