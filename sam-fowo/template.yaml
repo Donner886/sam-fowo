@@ -36,6 +36,20 @@ Resources:
     Metadata:
       BuildMethod: python3.9 # this is where magic happen, sam build command will read requirements.txt file and download libraries
 
+  LambdaExecutionRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: lambda.amazonaws.com
+              Action: "sts:AssumeRole"
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+          - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+          - arn:aws:iam::aws:policy/AmazonS3FullAccess
 
   OverviewApiProd:
     Type: AWS::Serverless::Api
@@ -96,3 +110,23 @@ Resources:
             Method: post
             RestApiId:
               Ref: OverviewApiDev
+
+  fowoImportRPACSVDev:
+    Type: AWS::Serverless::Function
+    Condition: IsNotProd
+    Properties:
+      CodeUri: import_data/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Timeout: 360
+      Layers:
+        - !Ref commonLibrary
+      Role: !GetAtt LambdaExecutionRole.Arn
+  version:
+    Type: AWS::Lambda::Version
+    Properties:
+      FunctionName: !Ref fowoImportRPACSVDev
+      Description: v0
+
+
+
