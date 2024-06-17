@@ -29,22 +29,24 @@ def lambda_handler(event, context):
             tableDefinitions = tableFactory().tableDefinition(table_type, family_id)
             if type(tableDefinitions) != 'NoneType':
                 table_name = list(tableDefinitions.keys())[0]
-                print(table_name)
                 db_handler = handleDynamodb()
-                table_existence_status = db_handler.table_exists(table_name)
-                if table_existence_status['status'] == 200:
-                # put data into table here
-                    print('start to put data into proper table here')
-                elif (table_existence_status['status'] == 404):
-                    table_ds = tableDefinitions[table_name]
-                    table_status = db_handler.create_table(table_ds)
-
-
-
+                response = db_handler.batchPutItemsOrCreate(table_name, tableDefinitions,source_in_s3)
                 return {
                     "statusCode": 200,
                     "body": json.dumps({
-                        "message": "table creation",
-                        'table_creation_status': 'waiting for read'
+                        "message": response
                     }),
                 }
+            else:
+                return {
+                    "statusCode": 500,
+                    "body": json.dumps({
+                        "message": 'The table type is not consistent with what we has specified.'
+                    }),
+                }
+    return {
+        "statusCode": 500,
+        "body": json.dumps({
+            "message": 'TABLE TYPE and FAMILY ID should be included in table content.'
+        }),
+    }

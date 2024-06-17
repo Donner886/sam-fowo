@@ -82,10 +82,12 @@ class TableFoCashTrans:
                 "AttributeName": "AC_NBR",
                 "KeyType": "HASH"
             },
+
             {
-                "AttributeName": "CURR",
+                "AttributeName": "Txn_Series",
                 "KeyType": "RANGE"
-            }
+            },
+
         ]
 
         self.KeyAttributeDefinitions = [
@@ -93,9 +95,10 @@ class TableFoCashTrans:
                 "AttributeName": "AC_NBR",
                 "AttributeType": "S"
             },
+
             {
-                "AttributeName": "CURR",
-                "AttributeType": "S"
+                "AttributeName": "Txn_Series",
+                "AttributeType": "N"
             }
         ]
         self.NonKeyAttributes =  [
