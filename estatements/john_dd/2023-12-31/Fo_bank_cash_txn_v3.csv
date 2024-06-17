@@ -1,0 +1,17 @@
+﻿TABLE_TYPE,FAMILY_ID,LEDGER DATE,Bank Short Name,AC_NBR,Txn_Series,DESCRIPTION,CURR,TRAN_AMT,HKD EQV
+FoCashTrans,john_dong23,2024/1/31,BNPP-HKD,002-852895-001,1,Transfer Amount to 001M,HKD,-880000,"-880,000.00"
+FoCashTrans,john_dong23,2024/1/31,BNPP-HKD,002-852895-001,6,Interest,HKD,"360,000.00","360,000.00"
+FoCashTrans,john_dong23,2024/1/31,BNPP-USD,002-852895-274,7,Interest,USD,"86,000.00","670,826.83"
+FoCashTrans,john_dong23,2024/1/31,BNPP-EUR,002-852895-275,8,Interest,EUR,"72,000.00","599,001.66"
+FoCashTrans,john_dong23,2024/1/31,UBS-USD,788-051-204,5,Professional service fee,USD,"-70,000.00","-546,021.84"
+FoCashTrans,john_dong23,2024/1/31,UBS-USD,788-051-204,9,Interest,USD,"32,000.00",249609.9844
+FoCashTrans,john_dong23,2024/1/31,UBS-HKD,788-076-597,10,Interest,HKD,45000,"45,000.00"
+FoCashTrans,john_dong23,2024/1/31,UBS-CNY,788-614-705,11,Interest,CNY,57000,"61,956.52"
+FoCashTrans,john_dong23,2024/1/31,CITI-HKD,911-256-42,2,Policy bonus,USD,"5,050.94",39398.91
+FoCashTrans,john_dong23,2024/1/31,CITI-HKD,911-256-42,4,Staff Salary payment,HKD,"-439,000.00","-15,368.00"
+FoCashTrans,john_dong23,2024/1/31,CITI-HKD,911-256-42,12,Interest,HKD,68000,"68,000.00"
+FoCashTrans,john_dong23,2024/1/31,CITI-USD,911-256-50,14,Interest,USD,22000,"171,606.86"
+FoCashTrans,john_dong23,2024/1/31,CITI-CNY,911-256-77,3,Staff travel expense,CNY,"-63,000.00","-68,478.26"
+FoCashTrans,john_dong23,2024/1/31,CITI-CNY,911-256-77,13,Interest,CNY,53200,"57,826.09"
+FoCashTrans,john_dong23,2024/1/31,CITI-GBP,911-256-85,16,Interest,GBP,15000,"150,000.00"
+FoCashTrans,john_dong23,2024/1/31,CITI-EUR,911-256-93,15,Interest,EUR,16800,"139,767.05"
